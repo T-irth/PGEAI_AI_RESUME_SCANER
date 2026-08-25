@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+<body>
+<nav><div class="logo">🤖 AI ResumeScreen Admin</div><a href="/">Home</a></nav>
+<div class="container">
+{% with messages=get_flashed_messages() %}
+{% if messages %}<div class="alert">{{ messages[0] }}</div>{% endif %}
+{% endwith %}
+<div class="panel">
+<h2>Add Job</h2>
+<form method="POST">
+<input name="title" placeholder="Job title" required>
+<textarea name="description" placeholder="Job description" required></textarea>
+<input name="skills" placeholder="python, sql, machine learning" required>
+<button>Add Job</button>
+</form>
+</div>
+<div class="panel">
+<h2>Available Jobs</h2>
+{% for job in jobs %}
+<div class="jobrow"><b>{{job.title}}</b><span>{{job.skills}}</span></div>
+{% endfor %}
+</div>
+<div class="panel">
+<h2>Candidate Ranking</h2>
+<table>
+<tr><th>Resume</th><th>Job</th><th>Score</th><th>Recommendation</th></tr>
+{% for r in results %}
+<tr><td>{{r.filename}}</td><td>{{r.title}}</td><td>{{r.score}}%</td><td>{{r.recommendation}}</td></tr>
+{% else %}<tr><td colspan="4">No candidates screened yet.</td></tr>{% endfor %}
+</table>
+</div>
+</div>
+</body>
+</html>

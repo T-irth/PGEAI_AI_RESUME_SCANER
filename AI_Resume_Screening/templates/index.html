@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Resume Screening</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+<body>
+<nav><div class="logo">🤖 AI ResumeScreen</div><a href="/admin">Admin Dashboard</a></nav>
+<div class="hero">
+<h1>AI Resume Screening System</h1>
+<p>Upload a resume and let AI measure its match with a job.</p>
+</div>
+<div class="container">
+{% with messages=get_flashed_messages() %}
+{% if messages %}<div class="alert">{{ messages[0] }}</div>{% endif %}
+{% endwith %}
+<div class="panel">
+<h2>Screen Your Resume</h2>
+<form action="/screen" method="POST" enctype="multipart/form-data">
+<label>Select Job</label>
+<select name="job_id" required>
+<option value="">-- Select Job --</option>
+{% for job in jobs %}
+<option value="{{job.id}}">{{job.title}}</option>
+{% endfor %}
+</select>
+<label>Upload PDF Resume</label>
+<input type="file" name="resume" accept=".pdf" required>
+<button type="submit">Analyze Resume with AI</button>
+</form>
+</div>
+<div class="cards">
+{% for job in jobs %}
+<div class="card">
+<h3>{{job.title}}</h3>
+<p>{{job.description}}</p>
+<strong>Required Skills</strong>
+<p>{{job.skills}}</p>
+</div>
+{% endfor %}
+</div>
+</div>
+</body>
+</html>
